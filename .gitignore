@@ -23,5 +23,5 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# local Claude Code permission state (not meant to be shared)
-.claude/settings.local.json
+# local Claude Code state (not meant to be shared)
+.claude/
