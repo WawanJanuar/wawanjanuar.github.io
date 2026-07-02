@@ -1,0 +1,188 @@
+---
+---
+
+<section class="section" id="founder">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-tag">04 &mdash; Founder</div>
+      </div>
+    </div>
+
+    <div class="founder-grid">
+      <div class="founder-photo reveal">
+        <img src="/assets/profile-wawan.png" alt="Founder Capital Wawan" />
+        <div class="founder-mask">
+          <span>WAWAN</span>
+          <span class="founder-mask-red">JANUAR</span>
+          <span class="founder-mask-label">The Founder</span>
+        </div>
+      </div>
+      <div class="founder-text reveal">
+        <div class="founder-name">WAWAN JANUAR</div>
+        <div class="founder-role">Founder by Family Office Capital Wawan</div>
+        <p>
+          Ketertarikan pada dunia finansial dimulai jauh sebelum usia yang lazim &mdash; sejak
+          bangku SMP. Memasuki masa SMA, fokus itu mengarah ke pasar saham, di mana{" "}
+          <strong>uang jajan saat SMP dan SMA</strong> yang seharusnya dihabiskan justru diputar
+          sebagai modal belajar pertama di pasar modal.
+        </p>
+        <p>
+          Memasuki bangku kuliah, fokus bergeser ke industri kripto. Di titik inilah
+          keputusan-keputusan yang diambil mulai membuahkan hasil nyata:{" "}
+          <strong>Rp100 juta pertama tercapai di usia 19 tahun</strong>, murni dari hasil
+          trading dan pengelolaan portofolio aset digital.
+        </p>
+        <p>
+          Perjalanan ini tidak ditempuh sendirian. Proses belajar terus berlanjut lewat
+          sejumlah komunitas, di antaranya <strong>Stockwise</strong> milik Andry Hakim dan{" "}
+          <strong>Akademi Crypto</strong> milik Timothy Ronald &mdash; dua lingkungan yang
+          banyak membentuk cara berpikir dalam mengelola portofolio hingga saat ini.
+        </p>
+        <p>
+          Hingga hari ini, fokus utama tetap pada pengelolaan portofolio di industri kripto
+          sebagai trader aktif. Namun jalan yang ditempuh tidak berhenti di satu jalur &mdash;
+          sejumlah usaha kecil turut dibangun sebagai bentuk diversifikasi pendapatan dan
+          disiplin berbisnis di luar pasar finansial.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  @media (max-width: 860px) {
+    .founder-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .founder-photo {
+    position: relative;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 560px;
+    overflow: visible;
+  }
+
+  @media (max-width: 860px) {
+    .founder-photo {
+      height: 400px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .founder-photo {
+      height: 340px;
+    }
+  }
+
+  .founder-photo::before {
+    content: "";
+    position: absolute;
+    inset: -40px;
+    z-index: 0;
+    background: radial-gradient(ellipse 60% 55% at 50% 55%, rgba(232, 17, 45, 0.28), transparent 70%);
+    filter: blur(10px);
+  }
+
+  .founder-photo img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    object-position: bottom;
+    position: relative;
+    z-index: 2;
+    filter: grayscale(100%) contrast(1.2) brightness(0.92);
+    -webkit-mask-image:
+      linear-gradient(180deg, transparent 0%, black 12%, black 78%, transparent 100%),
+      radial-gradient(ellipse 70% 100% at 50% 60%, black 60%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(180deg, transparent 0%, black 12%, black 78%, transparent 100%),
+      radial-gradient(ellipse 70% 100% at 50% 60%, black 60%, transparent 100%);
+    mask-composite: intersect;
+  }
+
+  .founder-photo::after {
+    content: "";
+    position: absolute;
+    left: -40px;
+    right: -40px;
+    bottom: -40px;
+    height: 45%;
+    z-index: 3;
+    background: linear-gradient(180deg, transparent, var(--bg) 85%);
+    pointer-events: none;
+  }
+
+  .founder-mask {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 108%;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 0.92;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.85), 0 2px 10px rgba(0, 0, 0, 0.9);
+  }
+
+  .founder-mask-red {
+    color: var(--red);
+  }
+
+  .founder-mask-label {
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-stretch: 100%;
+    font-size: 13px;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-shadow: none;
+  }
+
+  .founder-name {
+    font-size: 15px;
+    font-family: var(--font-mono);
+    color: var(--red);
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .founder-role {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  .founder-text p {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--copy-founder);
+    margin-bottom: 18px;
+  }
+
+  .founder-text strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+</style>

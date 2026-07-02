@@ -1,0 +1,192 @@
+---
+---
+
+<section class="sejarah" id="sejarah">
+  <div class="sejarah-grid">
+    <div class="sejarah-text">
+      <div class="section-tag">01 &mdash; Sejarah</div>
+      <h2>Asal Mula <span>Pendirian</span></h2>
+      <p>
+        Capital Wawan tidak lahir dari modal besar atau warisan &mdash; ia lahir dari uang
+        jajan SMP dan SMA yang diputar diam-diam di pasar saham, jauh sebelum kata "family
+        office" pernah terpikirkan.
+      </p>
+      <p>
+        Berdiri resmi pada tahun 2023, Capital Wawan dibentuk sebagai wadah untuk mengelola
+        portofolio saham dan aset kripto secara lebih terstruktur, setelah bertahun-tahun
+        berjalan sebagai trader independen dan aktif di berbagai komunitas belajar seperti
+        Stockwise dan Akademi Crypto.
+      </p>
+      <p>
+        Filosofi yang dipegang sejak awal tetap sama hingga hari ini: <span class="hl">tidak
+        ada yang instan</span> &mdash; setiap posisi yang dipegang lahir dari proses, bukan
+        keberuntungan sesaat.
+      </p>
+    </div>
+    <div class="sejarah-visual">
+      <div class="sejarah-photo"></div>
+      <svg class="sejarah-svg" viewBox="0 0 700 640" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="candleGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#E8112D"></stop>
+            <stop offset="100%" stop-color="#7A0E1C"></stop>
+          </linearGradient>
+        </defs>
+
+        <g class="node-net" stroke="#E8112D" stroke-width="1" opacity="0.35">
+          <line x1="430" y1="120" x2="540" y2="90"></line>
+          <line x1="540" y1="90" x2="630" y2="150"></line>
+          <line x1="430" y1="120" x2="500" y2="200"></line>
+          <line x1="500" y1="200" x2="630" y2="150"></line>
+          <line x1="500" y1="200" x2="460" y2="290"></line>
+          <line x1="630" y1="150" x2="660" y2="260"></line>
+          <line x1="460" y1="290" x2="660" y2="260"></line>
+        </g>
+        <g class="node-dot" fill="#E8112D">
+          <circle cx="430" cy="120" r="5"></circle>
+          <circle cx="540" cy="90" r="4"></circle>
+          <circle cx="630" cy="150" r="6"></circle>
+          <circle cx="500" cy="200" r="4"></circle>
+          <circle cx="460" cy="290" r="5"></circle>
+          <circle cx="660" cy="260" r="4"></circle>
+        </g>
+
+        <text x="560" y="470" font-family="Archivo Expanded, sans-serif" font-weight="800" font-size="220" fill="none" stroke="#E8112D" stroke-width="1.4" opacity="0.28">&#8383;</text>
+
+        <text x="80" y="90" font-family="JetBrains Mono, monospace" font-size="30" fill="#E8112D" opacity="0.28">$</text>
+        <text x="150" y="560" font-family="JetBrains Mono, monospace" font-size="26" fill="#E8112D" opacity="0.22">Rp</text>
+        <text x="600" y="600" font-family="JetBrains Mono, monospace" font-size="24" fill="#E8112D" opacity="0.24">S$</text>
+        <text x="330" y="60" font-family="JetBrains Mono, monospace" font-size="20" fill="#E8112D" opacity="0.2">$</text>
+
+        <g transform="translate(370,420)">
+          <line x1="10" y1="10" x2="10" y2="70" stroke="url(#candleGrad)" stroke-width="2"></line>
+          <rect x="4" y="22" width="12" height="34" fill="url(#candleGrad)"></rect>
+          <line x1="45" y1="0" x2="45" y2="60" stroke="url(#candleGrad)" stroke-width="2"></line>
+          <rect x="39" y="10" width="12" height="30" fill="url(#candleGrad)"></rect>
+          <line x1="80" y1="-30" x2="80" y2="40" stroke="url(#candleGrad)" stroke-width="2"></line>
+          <rect x="74" y="-20" width="12" height="45" fill="url(#candleGrad)"></rect>
+          <line x1="115" y1="-70" x2="115" y2="10" stroke="url(#candleGrad)" stroke-width="2"></line>
+          <rect x="109" y="-60" width="12" height="50" fill="url(#candleGrad)"></rect>
+          <line x1="150" y1="-120" x2="150" y2="-20" stroke="url(#candleGrad)" stroke-width="2"></line>
+          <rect x="144" y="-110" width="12" height="65" fill="url(#candleGrad)"></rect>
+          <path d="M4,45 L45,25 L80,-5 L115,-45 L150,-90" stroke="#E8112D" stroke-width="1.5" fill="none" opacity="0.6"></path>
+        </g>
+      </svg>
+      <div class="sejarah-mask"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sejarah {
+    position: relative;
+    min-height: 640px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(115deg, #1c0508 0%, #0a0a0b 55%);
+    overflow: hidden;
+  }
+
+  .sejarah-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(420px, 760px) 1fr;
+    align-items: stretch;
+    min-height: 640px;
+    padding-left: max(32px, calc((100vw - 1180px) / 2));
+  }
+
+  .sejarah-text {
+    padding: 100px 48px 100px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 720px;
+  }
+
+  .sejarah-text .section-tag {
+    color: var(--red);
+  }
+
+  .sejarah-text h2 {
+    font-size: clamp(30px, 3.6vw, 46px);
+    margin-bottom: 28px;
+    color: var(--text);
+  }
+
+  .sejarah-text h2 span {
+    color: var(--red);
+  }
+
+  .sejarah-text p {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--copy);
+    margin-bottom: 18px;
+  }
+
+  .sejarah-text .hl {
+    color: var(--red);
+    font-weight: 600;
+  }
+
+  .sejarah-visual {
+    position: relative;
+    grid-column: 2;
+  }
+
+  .sejarah-photo {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 500px 700px at 70% 20%, rgba(232, 17, 45, 0.22), transparent 60%),
+      linear-gradient(200deg, #2a0a0f 0%, #0a0a0b 65%);
+  }
+
+  .sejarah-photo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 64px);
+    opacity: 0.5;
+  }
+
+  .sejarah-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .sejarah-mask {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--bg) 0%, rgba(10, 10, 11, 0.75) 22%, transparent 55%);
+    z-index: 2;
+  }
+
+  @media (max-width: 860px) {
+    .sejarah-grid {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding-left: 0;
+    }
+    .sejarah-visual {
+      grid-column: 1;
+      height: 280px;
+      position: relative;
+      order: 1;
+    }
+    .sejarah-text {
+      padding: 40px 20px;
+      max-width: 100%;
+      order: 2;
+    }
+    .sejarah-mask {
+      background: linear-gradient(180deg, transparent 0%, var(--bg) 90%);
+    }
+  }
+</style>

@@ -1,0 +1,66 @@
+---
+---
+
+<section class="cta">
+  <div class="wrap">
+    <h2>Believe in progress. Nothing in this world is instant.</h2>
+    <p>
+      Capital Wawan tidak membuka penggalangan dana dari pihak luar. Untuk kolaborasi bisnis
+      atau pertanyaan seputar ventures, silakan hubungi kami.
+    </p>
+    <a href="#" class="cta-btn magnetic">Follow IG &rarr;</a>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding: 140px 0;
+    text-align: center;
+    position: relative;
+  }
+
+  .cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 700px 400px at 50% 0%, rgba(232, 17, 45, 0.1), transparent 65%);
+    pointer-events: none;
+  }
+
+  .cta h2 {
+    font-size: clamp(30px, 5vw, 56px);
+    max-width: 760px;
+    margin: 0 auto 24px;
+  }
+
+  .cta p {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 480px;
+    margin: 0 auto 44px;
+    line-height: 1.7;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--red);
+    color: #fff;
+    padding: 16px 32px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: box-shadow 0.2s;
+    position: relative;
+  }
+
+  .cta-btn:hover {
+    box-shadow: 0 12px 30px rgba(232, 17, 45, 0.3);
+  }
+</style>
+
+<script>
+  import { initMagneticButtons } from "../scripts/magneticButton";
+  initMagneticButtons();
+</script>

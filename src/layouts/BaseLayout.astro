@@ -1,0 +1,44 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Capital Wawan",
+  description = "Capital Wawan adalah family office pribadi yang mengelola saham domestik (IDX) dan aset kripto dengan pendekatan jangka panjang.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // A reload after clicking an in-page anchor (e.g. #thesis) would otherwise land
+      // mid-page, since browsers auto-scroll to a URL hash on load. This is a one-page
+      // site, so every load should start at the top instead.
+      if (window.location.hash) {
+        history.scrollRestoration = "manual";
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+        window.scrollTo(0, 0);
+      }
+    </script>
+    <link rel="icon" type="image/png" href="/assets/logo-cw.png" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+    <script>
+      import { initReveal } from "../scripts/reveal";
+      import { initParallax } from "../scripts/parallax";
+      initReveal();
+      initParallax();
+    </script>
+  </body>
+</html>

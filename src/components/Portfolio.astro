@@ -1,0 +1,45 @@
+---
+import { holdings } from "../data/portfolio";
+import PortfolioCard from "./PortfolioCard.astro";
+---
+
+<section class="section" id="portfolio">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-tag">03 &mdash; Portfolio</div>
+        <h2>Aset inti yang sedang dikelola</h2>
+      </div>
+      <p>
+        Tiga posisi utama yang mencerminkan keyakinan jangka panjang kami saat ini, lintas
+        pasar saham dan kripto.
+      </p>
+    </div>
+
+    <div class="ticker-grid">
+      {holdings.map((holding) => <PortfolioCard holding={holding} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ticker-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    background: transparent;
+    border: none;
+    padding: 4px;
+  }
+
+  @media (max-width: 780px) {
+    .ticker-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  import { initSpotlight } from "../scripts/spotlight";
+  initSpotlight();
+</script>

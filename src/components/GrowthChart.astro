@@ -1,0 +1,282 @@
+---
+const points = [
+  { x: 0, y: 344, age: 15, val: "<Rp10jt", highlight: false },
+  { x: 164, y: 332, age: 16, val: ">Rp15jt", highlight: false },
+  { x: 328, y: 300, age: 17, val: ">Rp50jt", highlight: false },
+  { x: 492, y: 254, age: 18, val: "Rp80jt", highlight: false },
+  { x: 656, y: 236, age: 19, val: "Rp100jt", highlight: false },
+  { x: 940, y: 20, age: 20, val: "<Rp1M", highlight: true },
+];
+
+// Exact d-string values matches capital-wawan.html's hardcoded path (verified: same
+// M/L points), derived from one array so the line, area, points, and labels can't drift.
+const linePath = points.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
+const areaPath = `${linePath} L${points[points.length - 1].x},380 L${points[0].x},380 Z`;
+---
+
+<section class="section" id="growth" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-tag">05 &mdash; Track Record</div>
+        <h2>Pertumbuhan Asset Under Management</h2>
+      </div>
+      <p>
+        Setiap titik merepresentasikan estimasi AUM yang dikelola pada tiap tahap &mdash;
+        dibangun bertahap, tanpa jalan pintas.
+      </p>
+    </div>
+
+    <div class="ladder-wrap reveal">
+      <div class="growth-chart">
+        <svg id="growthSvg" viewBox="0 0 940 380" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#E8112D" stop-opacity="0.35"></stop>
+              <stop offset="100%" stop-color="#E8112D" stop-opacity="0"></stop>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="60" x2="940" y2="60" class="grid-line"></line>
+          <line x1="0" y1="140" x2="940" y2="140" class="grid-line"></line>
+          <line x1="0" y1="220" x2="940" y2="220" class="grid-line"></line>
+          <line x1="0" y1="300" x2="940" y2="300" class="grid-line"></line>
+
+          <path id="growthArea" class="growth-area" d={areaPath}></path>
+          <path id="growthLine" class="growth-line" d={linePath}></path>
+
+          <g class="growth-points">
+            {
+              points.map((p) => (
+                <circle
+                  cx={p.x}
+                  cy={p.y}
+                  r={p.highlight ? "5.5" : "5"}
+                  class={p.highlight ? "point-final" : ""}
+                />
+              ))
+            }
+          </g>
+
+          <g class="growth-hit-points">
+            {
+              points.map((p) => (
+                <circle
+                  cx={p.x}
+                  cy={p.y}
+                  r="22"
+                  data-age={p.age}
+                  data-val={p.val}
+                  tabindex="0"
+                  role="img"
+                  aria-label={`Tahap ${p.age}: ${p.val}`}
+                />
+              ))
+            }
+          </g>
+        </svg>
+
+        <div class="growth-tooltip" id="growthTooltip">
+          <span class="gt-age"></span>
+          <span class="gt-val"></span>
+        </div>
+
+        <div class="growth-labels">
+          {
+            points.map((p) => (
+              <div>
+                <span class="gl-age">{p.age}</span>
+                <span class={p.highlight ? "gl-val gl-highlight" : "gl-val"}>{p.val}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <p class="ladder-note">
+        Angka merepresentasikan estimasi total AUM yang dikelola pada tiap tahap, dibulatkan
+        untuk keperluan ilustrasi. Bukan merupakan jaminan hasil di masa depan &mdash; performa
+        pasar saham dan kripto bersifat fluktuatif.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ladder-wrap {
+    position: relative;
+    padding-top: 20px;
+  }
+
+  .growth-chart {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0) 30%),
+      #000;
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    box-shadow:
+      0 30px 70px -20px rgba(0, 0, 0, 0.85),
+      0 10px 30px rgba(232, 17, 45, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    padding: 32px 32px 0;
+  }
+
+  .growth-chart svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  .grid-line {
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+
+  .growth-area {
+    fill: url(#areaGradient);
+    opacity: 0;
+  }
+
+  .growth-line {
+    fill: none;
+    stroke: var(--red);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+  }
+
+  .growth-points circle {
+    fill: var(--bg);
+    stroke: var(--red);
+    stroke-width: 2;
+    opacity: 0;
+  }
+
+  .growth-points circle.point-final {
+    fill: var(--red);
+  }
+
+  .growth-hit-points circle {
+    fill: transparent;
+    cursor: pointer;
+    pointer-events: all;
+  }
+
+  .growth-hit-points circle:focus-visible {
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
+  }
+
+  .growth-tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    transform: translate(-50%, calc(-100% - 14px));
+    background: rgba(20, 20, 22, 0.9);
+    border: 1px solid rgba(232, 17, 45, 0.35);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.8);
+  }
+
+  .growth-tooltip.is-visible {
+    opacity: 1;
+  }
+
+  .growth-tooltip.flip-below {
+    transform: translate(-50%, 14px);
+  }
+
+  .growth-tooltip .gt-age {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .growth-tooltip .gt-val {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  .growth-labels {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-top: 1px solid var(--line);
+    margin-top: 20px;
+  }
+
+  .growth-labels > div {
+    padding: 16px 8px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-left: 1px solid var(--line);
+  }
+
+  .growth-labels > div:first-child {
+    border-left: none;
+  }
+
+  .gl-age {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .gl-val {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .gl-highlight {
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  @media (max-width: 700px) {
+    .growth-chart {
+      padding: 24px 16px 0;
+    }
+    .growth-labels {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .growth-labels > div:nth-child(4) {
+      border-left: none;
+    }
+  }
+
+  .ladder-note {
+    margin-top: 28px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 600px;
+  }
+</style>
+
+<script>
+  import { initGrowthChart } from "../scripts/growthChart";
+  import { initGrowthTooltip } from "../scripts/growthTooltip";
+  initGrowthChart();
+  initGrowthTooltip();
+</script>
