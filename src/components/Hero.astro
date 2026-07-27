@@ -1,23 +1,24 @@
 ---
+import { holdings } from "../data/portfolio";
 ---
 
 <section class="hero">
   <canvas id="heroNetwork" class="hero-network-bg"></canvas>
   <div class="wrap">
-    <div class="hero-eyebrow">Family Office &mdash; Saham &amp; Crypto</div>
-    <h1>Investasi bukan tempat untuk mencari kekayaan, <em>tapi menggandakan kekayaan.</em></h1>
-    <p class="hero-sub">
+    <div class="hero-eyebrow reveal">Family Office &mdash; Saham &amp; Crypto</div>
+    <h1 class="reveal">Investasi bukan tempat untuk mencari kekayaan, <em>tapi menggandakan kekayaan.</em></h1>
+    <p class="hero-sub reveal">
       Capital Wawan adalah kendaraan investasi pribadi yang mengelola portofolio saham
       domestik dan aset digital dengan pendekatan jangka panjang, berbasis riset, dan tanpa
       modal dari pihak luar.
     </p>
-    <div class="hero-meta">
+    <div class="hero-meta reveal">
       <div>
         <div class="num">2023</div>
         <div class="lbl">Tahun Berdiri</div>
       </div>
       <div>
-        <div class="num">3</div>
+        <div class="num">{holdings.length}</div>
         <div class="lbl">Current Holding</div>
       </div>
       <div>
