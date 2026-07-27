@@ -15,20 +15,6 @@ export function initParallax() {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const heroLogo = document.querySelector(".hero-logo-mask");
-  if (heroLogo) {
-    gsap.to(heroLogo, {
-      y: 70,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".hero",
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
-  }
-
   const sejarahVisual = document.querySelector(".sejarah-visual");
   if (sejarahVisual) {
     gsap.fromTo(
