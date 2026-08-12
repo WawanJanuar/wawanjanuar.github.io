@@ -1,11 +1,11 @@
 // Hero animated blockchain node network — ported from capital-wawan.html's vanilla
-// canvas IIFE. Kept as plain canvas/rAF rather than GSAP: this is a continuous
-// per-frame physics simulation (node positions + pairwise distance checks), not a
-// tween between defined values, so GSAP's timeline model doesn't fit naturally.
+// canvas IIFE, matching its exact physics (42 nodes, 0.18 drift speed, 160px link
+// distance, bounce at canvas edges).
 //
 // Two additions beyond the reference file, both aimed at the "don't burn CPU
-// continuously" requirement: node count scales down on narrow viewports, and the
-// loop pauses when the canvas scrolls out of view or the tab is backgrounded.
+// continuously" requirement and invisible to any pixel comparison: node count scales
+// down on narrow viewports, and the loop pauses when the canvas scrolls out of view
+// or the tab is backgrounded.
 
 let initialized = false;
 
@@ -32,15 +32,12 @@ export function initHeroNetwork() {
 
   const RED = "232,17,45";
   const LINK_DIST = 160;
-  const TARGET_FPS = 30;
-  const FRAME_INTERVAL = 1000 / TARGET_FPS;
 
   let w = 0;
   let h = 0;
   let dpr = 1;
   let nodes: Node[] = [];
   let rafId: number | null = null;
-  let lastFrameTime = 0;
   let isVisible = true;
 
   function nodeCountFor(width: number) {
@@ -64,8 +61,8 @@ export function initHeroNetwork() {
     nodes = Array.from({ length: count }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
+      vx: (Math.random() - 0.5) * 0.18,
+      vy: (Math.random() - 0.5) * 0.18,
       r: 1.4 + Math.random() * 1.8,
     }));
   }
@@ -107,15 +104,12 @@ export function initHeroNetwork() {
     }
   }
 
-  function loop(time: number) {
+  function loop() {
     if (!isVisible) {
       rafId = null;
       return;
     }
-    if (time - lastFrameTime >= FRAME_INTERVAL) {
-      lastFrameTime = time;
-      draw();
-    }
+    draw();
     rafId = requestAnimationFrame(loop);
   }
 

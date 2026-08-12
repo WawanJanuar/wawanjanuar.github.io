@@ -1,13 +1,12 @@
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+// Scroll reveal — plain IntersectionObserver toggling `.in`, CSS transition does the
+// tweening (see `.reveal` / `.reveal.in` in global.css). Matches capital-wawan.html's
+// technique exactly: no GSAP/ScrollTrigger involved.
 
 let initialized = false;
 
 export function initReveal() {
   if (initialized) return;
   initialized = true;
-
-  gsap.registerPlugin(ScrollTrigger);
 
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
@@ -18,21 +17,16 @@ export function initReveal() {
     return;
   }
 
-  const elements = gsap.utils.toArray<HTMLElement>(".reveal");
-
-  // Matches capital-wawan.html: `.reveal{transition:opacity .8s ease, transform .8s ease}`
-  // triggered by an IntersectionObserver at threshold 0.15, no stagger between elements.
-  elements.forEach((el) => {
-    gsap.to(el, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: "power1.inOut",
-      scrollTrigger: {
-        trigger: el,
-        start: "top 85%",
-        toggleActions: "play none none reverse",
-      },
-    });
-  });
+  const reveals = document.querySelectorAll(".reveal");
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+  reveals.forEach((el) => io.observe(el));
 }

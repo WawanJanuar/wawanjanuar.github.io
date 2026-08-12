@@ -41,18 +41,105 @@
 
   /* NAV */
   nav{
-    position:fixed;top:0;left:0;right:0;z-index:100;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:22px 40px;
-    background:linear-gradient(to bottom, rgba(10,10,11,0.95), rgba(10,10,11,0));
-    backdrop-filter:blur(6px);
+    position:fixed;top:20px;left:0;right:0;z-index:100;
+    display:flex;justify-content:center;
+    padding:0 20px;
+    pointer-events:none;
   }
-  .nav-logo{display:flex;align-items:center;gap:10px;}
-  .nav-logo img{height:26px;width:auto;}
-  .nav-links{display:flex;gap:36px;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);}
-  .nav-links a{transition:color .2s;}
+  .nav-pill{
+    pointer-events:auto;
+    display:flex;align-items:center;gap:28px;
+    width:auto;
+    padding:9px 10px 9px 18px;
+    border-radius:999px;
+    background:rgba(20,20,22,0.6);
+    border:1px solid rgba(255,255,255,0.10);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    box-shadow:0 20px 50px -20px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06);
+    transition:gap .35s ease, padding .35s ease;
+  }
+  .nav-logo{display:flex;align-items:center;gap:9px;}
+  .nav-logo img{height:20px;width:auto;flex-shrink:0;}
+  .nav-logo span{
+    font-family:'JetBrains Mono',monospace;font-weight:500;font-size:13px;color:var(--text);
+    letter-spacing:0.14em;text-transform:uppercase;
+    white-space:nowrap;overflow:hidden;
+    max-width:160px;opacity:1;
+    transition:max-width .4s ease, opacity .3s ease, margin .4s ease;
+  }
+  nav.scrolled .nav-pill{gap:20px;}
+  nav.scrolled .nav-logo span{max-width:0;opacity:0;}
+  .nav-links{display:flex;gap:26px;font-size:14px;color:var(--muted);}
+  .nav-links a{transition:color .2s;white-space:nowrap;}
   .nav-links a:hover{color:var(--text);}
-  @media(max-width:780px){.nav-links{display:none;} nav{padding:18px 20px;}}
+  .nav-btns{display:flex;align-items:center;gap:8px;}
+  .nav-btn-ghost{
+    font-size:13px;font-weight:600;white-space:nowrap;
+    background:transparent;color:var(--text);
+    border:1px solid rgba(255,255,255,0.16);
+    padding:8px 16px;border-radius:999px;
+    transition:background .2s, border-color .2s;
+  }
+  .nav-btn-ghost:hover{background:rgba(255,255,255,0.06);}
+  .nav-btn-shimmer{
+    position:relative;
+    font-size:13px;font-weight:600;white-space:nowrap;
+    color:var(--text);
+    padding:8px 18px;border-radius:999px;
+    overflow:hidden;
+    isolation:isolate;
+    display:inline-flex;align-items:center;
+  }
+  .nav-btn-shimmer::before{
+    content:"";
+    position:absolute;
+    top:50%;left:50%;
+    width:220%;height:220%;
+    background:conic-gradient(from 0deg, transparent 0%, #E8112D 8%, transparent 20%, transparent 80%, #E8112D 92%, transparent 100%);
+    animation:spin-border 3.5s linear infinite;
+    z-index:-2;
+    will-change:transform;
+  }
+  .nav-btn-shimmer::after{
+    content:"";
+    position:absolute;inset:1.5px;
+    border-radius:999px;
+    background:#0c0c0d;
+    z-index:-1;
+  }
+  @keyframes spin-border{
+    from{ transform:translate(-50%,-50%) rotate(0deg); }
+    to{ transform:translate(-50%,-50%) rotate(360deg); }
+  }
+  @keyframes shimmer-rotate{
+    to{ --shimmer-angle:360deg; }
+  }
+  @property --shimmer-angle{
+    syntax:'<angle>';
+    initial-value:0deg;
+    inherits:false;
+  }
+
+  /* Reusable animated shimmer border for cards */
+  .shimmer-card{position:relative;isolation:isolate;}
+  .shimmer-card::after{
+    content:"";
+    position:absolute;inset:0;
+    border-radius:inherit;
+    padding:1px;
+    background:conic-gradient(from var(--shimmer-angle,0deg), transparent 0%, rgba(232,17,45,0.9) 8%, transparent 20%, transparent 80%, rgba(232,17,45,0.9) 92%, transparent 100%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    pointer-events:none;
+    z-index:2;
+    animation:shimmer-rotate 5s linear infinite;
+  }
+  @media(max-width:780px){
+    .nav-links{display:none;}
+    .nav-btn-ghost{display:none;}
+  }
 
   /* HERO */
   .hero{
@@ -195,66 +282,52 @@
   .section-head h2{font-size:clamp(28px,3.4vw,44px);max-width:640px;}
   .section-head p{max-width:380px;color:var(--muted);font-size:15px;line-height:1.7;}
 
-  /* THESIS - gradient mask visual, mirrored (visual left, text right, fade from left) */
-  .thesis-masked{
-    position:relative;
-    min-height:640px;
-    border-bottom:1px solid var(--line);
-    background:linear-gradient(245deg, #1c0508 0%, #0A0A0B 55%);
-    overflow:hidden;
+  /* THESIS - numbered mini-mockup card list (wealthclub-inspired pattern) */
+  .thesis-new{padding-top:120px;padding-bottom:120px;}
+  .thesis-heading{
+    font-size:clamp(30px,4vw,48px);
+    max-width:820px;
+    margin-bottom:64px;
   }
-  .thesis-grid{
-    position:relative;z-index:2;
-    display:grid;grid-template-columns:1fr minmax(420px,760px);
-    align-items:stretch;
-    min-height:640px;
-    padding-right:max(32px, calc((100vw - 1180px) / 2));
+  .thesis-heading span{color:var(--red);}
+  .thesis-list{display:flex;flex-direction:column;gap:16px;}
+  .thesis-item{
+    display:grid;
+    grid-template-columns:1fr 220px;
+    gap:32px;
+    align-items:center;
+    padding:36px 40px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.015);
   }
-  .thesis-visual{position:relative;grid-column:1;}
-  .thesis-photo{
-    position:absolute;inset:0;
-    background:
-      radial-gradient(ellipse 500px 700px at 30% 20%, rgba(232,17,45,0.22), transparent 60%),
-      linear-gradient(340deg, #2a0a0f 0%, #0A0A0B 65%);
+  .thesis-item-text{display:flex;gap:24px;align-items:flex-start;}
+  .thesis-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;color:var(--red);
+    flex-shrink:0;padding-top:2px;
   }
-  .thesis-photo::before{
-    content:"";position:absolute;inset:0;
-    background-image:
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 64px),
-      repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 64px);
-    opacity:0.5;
+  .thesis-item-text p{font-size:16px;line-height:1.8;color:#C9C8C4;}
+  .thesis-item-text p strong{color:var(--text);font-weight:600;}
+  .thesis-mockup{
+    width:100%;height:130px;
+    border-radius:14px;
+    background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0) 40%), rgba(20,20,22,.7);
+    border:1px solid rgba(255,255,255,.08);
+    padding:8px;
+    box-shadow:0 16px 32px -14px rgba(0,0,0,.65);
+    justify-self:end;
   }
-  .thesis-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;}
-  .thesis-mask{
-    position:absolute;inset:0;
-    background:linear-gradient(270deg, var(--bg) 0%, rgba(10,10,11,0.75) 22%, transparent 55%);
-    z-index:2;
-  }
-  .thesis-text{
-    grid-column:2;
-    position:relative;z-index:3;
-    padding:100px 32px 100px 32px;
-    display:flex;flex-direction:column;justify-content:center;
-    text-align:right;
-  }
-  .thesis-text .section-tag{color:var(--red);text-align:right;}
-  .thesis-text h2{
-    font-size:clamp(28px,3.2vw,40px);
-    margin-bottom:24px;
-    color:var(--text);
-    text-align:right;
-  }
-  .thesis-text h2 span{color:var(--red);}
-  .thesis-text p{
-    font-size:16px;line-height:1.85;color:#C9C8C4;margin-bottom:16px;
-    text-align:right;
-  }
-  .thesis-text p strong{color:var(--text);font-weight:600;}
-  @media(max-width:860px){
-    .thesis-grid{grid-template-columns:1fr;min-height:auto;padding-right:0;}
-    .thesis-visual{grid-column:1;height:280px;position:relative;}
-    .thesis-text{grid-column:1;padding:40px 20px 60px;}
-    .thesis-mask{background:linear-gradient(180deg, transparent 0%, var(--bg) 90%);}
+  #sliderFill{transition:width 1s cubic-bezier(.16,.84,.44,1);}
+  #sliderDot, #sliderRing{transition:cx 1s cubic-bezier(.16,.84,.44,1);}
+  .check-mark{stroke-dasharray:8;stroke-dashoffset:8;transition:stroke-dashoffset .35s ease;}
+  .check-mark.ticked{stroke-dashoffset:0;}
+  .check-ring{transition:stroke .35s ease;}
+  .check-ring.ticked{stroke:#E8112D;}
+  .streak-cell{transition:fill .3s ease;}
+  @media(max-width:780px){
+    .thesis-item{grid-template-columns:1fr;padding:28px 24px;}
+    .thesis-mockup{justify-self:stretch;}
   }
 
   /* PORTFOLIO */
@@ -307,7 +380,24 @@
   .ticker-name{font-size:22px;font-family:'Archivo Expanded',sans-serif;font-weight:800;margin-bottom:10px;}
   .ticker-desc{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:28px;min-height:64px;}
   .ticker-spark{height:44px;width:100%;}
-  .ticker-spark path{fill:none;stroke:var(--red);stroke-width:1.6;}
+  .ticker-spark path{
+    fill:none;stroke:var(--red);stroke-width:1.6;
+    stroke-dasharray:400;stroke-dashoffset:400;
+    transition:stroke-dashoffset 1.4s cubic-bezier(.16,.84,.44,1);
+  }
+  .ticker-card.in .ticker-spark path{stroke-dashoffset:0;}
+  .ticker-trend{opacity:0;transform:translateY(6px);transition:opacity .5s ease .3s, transform .5s ease .3s;}
+  .ticker-card.in .ticker-trend{opacity:1;transform:translateY(0);}
+  .ticker-trend{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;
+    margin-bottom:10px;
+    display:inline-flex;align-items:center;gap:5px;
+  }
+  .ticker-trend.up{color:#4ADE80;}
+  .ticker-trend.flat{color:var(--muted);}
+  .ticker-grid-6{grid-template-columns:repeat(3,1fr);}
+  @media(max-width:960px){.ticker-grid-6{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.ticker-grid-6{grid-template-columns:1fr;}}
 
   /* FOUNDER */
   .founder-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:64px;align-items:start;}
@@ -451,11 +541,25 @@
   }
   .cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(232,17,45,0.3);}
 
-  footer{padding:40px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
-  footer .foot-logo{display:flex;align-items:center;gap:10px;}
-  footer .foot-logo img{height:20px;}
-  footer .foot-copy{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
-  footer .foot-links{display:flex;gap:24px;font-size:12px;color:var(--muted);}
+  .footer-new{
+    padding:80px 32px 48px;
+    display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;
+    border-top:1px solid var(--line);
+  }
+  .foot-brand{display:flex;flex-direction:column;gap:14px;}
+  .foot-logo img{height:24px;}
+  .foot-copy{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+  .foot-col{display:flex;flex-direction:column;gap:14px;}
+  .foot-col-title{
+    font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--muted);font-family:'JetBrains Mono',monospace;
+    margin-bottom:4px;
+  }
+  .foot-col a{font-size:14px;color:#C9C8C4;transition:color .2s;}
+  .foot-col a:hover{color:var(--red);}
+  @media(max-width:700px){
+    .footer-new{grid-template-columns:1fr;gap:32px;padding:60px 20px 40px;}
+  }
 
   .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease, transform .8s ease;}
   .reveal.in{opacity:1;transform:translateY(0);}
@@ -469,14 +573,21 @@
 <body>
 
 <nav>
-  <div class="nav-logo">
-    <img src="/assets/logo-cw.png" alt="Capital Wawan">
-  </div>
-  <div class="nav-links">
-    <a href="#thesis">Thesis</a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#founder">Founder</a>
-    <a href="#growth">Growth</a>
+  <div class="nav-pill">
+    <div class="nav-logo">
+      <img src="/assets/logo-cw.png" alt="Capital Wawan">
+      <span>Capital Wawan</span>
+    </div>
+    <div class="nav-links">
+      <a href="#thesis">Thesis</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#founder">Founder</a>
+      <a href="#growth">Growth</a>
+    </div>
+    <div class="nav-btns">
+      <a href="https://www.instagram.com/wawanjanuarr/" class="nav-btn-ghost" target="_blank" rel="noopener">Follow IG</a>
+      <a href="https://discord.gg/ymWfw7gS8" class="nav-btn-shimmer" target="_blank" rel="noopener">Gabung</a>
+    </div>
   </div>
 </nav>
 
@@ -570,58 +681,81 @@
   </div>
 </section>
 
-<section class="thesis-masked" id="thesis">
-  <div class="thesis-grid">
-    <div class="thesis-visual">
-      <div class="thesis-photo"></div>
-      <svg class="thesis-svg" viewBox="0 0 700 640" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="thesisCandleGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#E8112D"></stop>
-            <stop offset="100%" stop-color="#7A0E1C"></stop>
-          </linearGradient>
-        </defs>
-        <g stroke="#E8112D" stroke-width="1" opacity="0.3">
-          <line x1="80" y1="130" x2="180" y2="95"></line>
-          <line x1="180" y1="95" x2="260" y2="160"></line>
-          <line x1="80" y1="130" x2="150" y2="215"></line>
-          <line x1="150" y1="215" x2="260" y2="160"></line>
-          <line x1="150" y1="215" x2="110" y2="300"></line>
-          <line x1="260" y1="160" x2="290" y2="270"></line>
-          <line x1="110" y1="300" x2="290" y2="270"></line>
-        </g>
-        <g fill="#E8112D">
-          <circle cx="80" cy="130" r="5"></circle>
-          <circle cx="180" cy="95" r="4"></circle>
-          <circle cx="260" cy="160" r="6"></circle>
-          <circle cx="150" cy="215" r="4"></circle>
-          <circle cx="110" cy="300" r="5"></circle>
-          <circle cx="290" cy="270" r="4"></circle>
-        </g>
-        <text x="60" y="470" font-family="Archivo Expanded, sans-serif" font-weight="800" font-size="220" fill="none" stroke="#E8112D" stroke-width="1.4" opacity="0.24">%</text>
-        <text x="500" y="90" font-family="JetBrains Mono, monospace" font-size="28" fill="#E8112D" opacity="0.26">$</text>
-        <text x="560" y="560" font-family="JetBrains Mono, monospace" font-size="24" fill="#E8112D" opacity="0.2">Rp</text>
-        <text x="120" y="60" font-family="JetBrains Mono, monospace" font-size="20" fill="#E8112D" opacity="0.2">S$</text>
-        <g transform="translate(60,420)">
-          <line x1="10" y1="30" x2="10" y2="90" stroke="url(#thesisCandleGrad)" stroke-width="2"></line>
-          <rect x="4" y="42" width="12" height="34" fill="url(#thesisCandleGrad)"></rect>
-          <line x1="45" y1="10" x2="45" y2="70" stroke="url(#thesisCandleGrad)" stroke-width="2"></line>
-          <rect x="39" y="20" width="12" height="30" fill="url(#thesisCandleGrad)"></rect>
-          <line x1="80" y1="-10" x2="80" y2="50" stroke="url(#thesisCandleGrad)" stroke-width="2"></line>
-          <rect x="74" y="0" width="12" height="40" fill="url(#thesisCandleGrad)"></rect>
-          <line x1="115" y1="-45" x2="115" y2="20" stroke="url(#thesisCandleGrad)" stroke-width="2"></line>
-          <rect x="109" y="-35" width="12" height="45" fill="url(#thesisCandleGrad)"></rect>
-          <path d="M4,65 L45,35 L80,15 L115,-25" stroke="#E8112D" stroke-width="1.5" fill="none" opacity="0.55"></path>
-        </g>
-      </svg>
-      <div class="thesis-mask"></div>
-    </div>
-    <div class="thesis-text">
-      <div class="section-tag">02 &mdash; Thesis</div>
-      <h2>Kami percaya <span>kesabaran</span> adalah aset yang paling jarang dimiliki di pasar.</h2>
-      <p>Bukan soal seberapa cepat modal bertumbuh, tapi seberapa lama ia bisa bertahan lewat siklus pasar yang berbeda-beda.</p>
-      <p><strong>Capital Wawan dibangun di atas satu prinsip sederhana:</strong> uang bekerja paling baik ketika dikelola dengan data, bukan emosi. Kami memandang saham domestik dan aset kripto bukan sebagai instrumen spekulasi jangka pendek, melainkan sebagai kelas aset yang layak dipelajari secara mendalam, dipegang dengan keyakinan, dan dievaluasi ulang secara berkala.</p>
-      <p>Fokus kami ada pada perusahaan dan protokol dengan fundamental yang jelas &mdash; baik itu emiten dengan model bisnis yang bisa dipertanggungjawabkan, atau jaringan blockchain dengan adopsi nyata. Kami tidak mengejar tren, kami mengevaluasi keduanya dengan standar yang sama ketatnya.</p>
+<section class="section thesis-new" id="thesis">
+  <div class="wrap">
+    <div class="section-tag">02 &mdash; Thesis</div>
+    <h2 class="thesis-heading">Kami percaya <span>kesabaran</span> adalah aset yang paling jarang dimiliki di pasar.</h2>
+
+    <div class="thesis-list">
+      <div class="thesis-item reveal">
+        <div class="thesis-item-text">
+          <span class="thesis-num">01</span>
+          <p>Bukan soal seberapa cepat modal bertumbuh, tapi seberapa lama ia bisa bertahan lewat siklus pasar yang berbeda-beda.</p>
+        </div>
+        <div class="thesis-mockup thesis-mockup-time shimmer-card">
+          <svg viewBox="0 0 160 110" width="100%" height="100%">
+            <text x="14" y="26" font-family="JetBrains Mono, monospace" font-size="10" fill="#8C8C90">SIKLUS PASAR</text>
+            <rect x="14" y="52" width="132" height="7" rx="3.5" fill="#2A2A2D"></rect>
+            <rect id="sliderFill" x="14" y="52" width="0" height="7" rx="3.5" fill="#E8112D"></rect>
+            <circle id="sliderDot" cx="14" cy="55.5" r="8" fill="#E8112D"></circle>
+            <circle id="sliderRing" cx="14" cy="55.5" r="13" fill="none" stroke="#E8112D" stroke-width="1" opacity="0.4"></circle>
+            <text x="14" y="86" font-family="JetBrains Mono, monospace" font-size="9" fill="#5c5c60">Bearish</text>
+            <text x="122" y="86" font-family="JetBrains Mono, monospace" font-size="9" fill="#5c5c60">Bullish</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="thesis-item reveal">
+        <div class="thesis-item-text">
+          <span class="thesis-num">02</span>
+          <p><strong>Capital Wawan dibangun di atas satu prinsip sederhana:</strong> uang bekerja paling baik ketika dikelola dengan data, bukan emosi. Saham domestik dan aset kripto bukan instrumen spekulasi jangka pendek, melainkan kelas aset yang dipelajari mendalam, dipegang dengan keyakinan, dievaluasi berkala.</p>
+        </div>
+        <div class="thesis-mockup thesis-mockup-data shimmer-card">
+          <svg viewBox="0 0 160 110" width="100%" height="100%">
+            <rect x="14" y="14" width="62" height="82" rx="10" fill="#1B1B1E" stroke="#2A2A2D"></rect>
+            <text x="24" y="38" font-family="JetBrains Mono, monospace" font-size="9" fill="#8C8C90">DATA</text>
+            <text id="dataPct" x="24" y="66" font-family="Archivo Expanded, sans-serif" font-size="20" font-weight="800" fill="#F2F1EE">0%</text>
+            <rect x="84" y="14" width="62" height="82" rx="10" fill="#1B1B1E" stroke="#2A2A2D" opacity="0.5"></rect>
+            <text x="94" y="38" font-family="JetBrains Mono, monospace" font-size="9" fill="#8C8C90" opacity="0.6">EMOSI</text>
+            <text id="emosiPct" x="94" y="66" font-family="Archivo Expanded, sans-serif" font-size="20" font-weight="800" fill="#8C8C90" opacity="0.6">0%</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="thesis-item reveal">
+        <div class="thesis-item-text">
+          <span class="thesis-num">03</span>
+          <p>Fokus kami ada pada perusahaan dan protokol dengan fundamental yang jelas &mdash; emiten dengan model bisnis yang bisa dipertanggungjawabkan, atau jaringan blockchain dengan adopsi nyata. Kami tidak mengejar tren, kami mengevaluasi keduanya dengan standar yang sama ketatnya.</p>
+        </div>
+        <div class="thesis-mockup thesis-mockup-check shimmer-card">
+          <svg viewBox="0 0 160 110" width="100%" height="100%">
+            <rect x="14" y="14" width="132" height="20" rx="5" fill="#1B1B1E"></rect>
+            <circle cx="27" cy="24" r="6" fill="none" stroke="#2A2A2D" stroke-width="1.5" class="check-ring" data-order="0"></circle>
+            <path d="M23.8,24 L26.2,26.5 L31,20.5" stroke="#E8112D" stroke-width="1.6" fill="none" class="check-mark" data-order="0"></path>
+            <rect x="42" y="20" width="90" height="7" rx="3.5" fill="#2A2A2D"></rect>
+            <rect x="14" y="40" width="132" height="20" rx="5" fill="#1B1B1E"></rect>
+            <circle cx="27" cy="50" r="6" fill="none" stroke="#2A2A2D" stroke-width="1.5" class="check-ring" data-order="1"></circle>
+            <path d="M23.8,50 L26.2,52.5 L31,46.5" stroke="#E8112D" stroke-width="1.6" fill="none" class="check-mark" data-order="1"></path>
+            <rect x="42" y="46" width="90" height="7" rx="3.5" fill="#2A2A2D"></rect>
+            <rect x="14" y="66" width="132" height="20" rx="5" fill="#1B1B1E" opacity="0.5"></rect>
+            <circle cx="27" cy="76" r="6" fill="none" stroke="#8C8C90" stroke-width="1.5"></circle>
+            <rect x="42" y="72" width="64" height="7" rx="3.5" fill="#2A2A2D"></rect>
+          </svg>
+        </div>
+      </div>
+
+      <div class="thesis-item reveal">
+        <div class="thesis-item-text">
+          <span class="thesis-num">04</span>
+          <p><strong>Konsistensi, disiplin, dan percaya pada progres</strong> &mdash; itu yang membangun portofolio ini, bukan jalan pintas. Setiap keputusan dievaluasi hari demi hari, bulan demi bulan, sampai hasilnya terlihat dalam hitungan tahun.</p>
+        </div>
+        <div class="thesis-mockup thesis-mockup-streak shimmer-card">
+          <svg viewBox="0 0 160 110" width="100%" height="100%">
+            <text x="14" y="24" font-family="JetBrains Mono, monospace" font-size="9" fill="#8C8C90">CONSISTENCY STREAK</text>
+            <g id="streakGrid"></g>
+          </svg>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -633,36 +767,69 @@
         <div class="section-tag">03 &mdash; Portfolio</div>
         <h2>Aset inti yang sedang dikelola</h2>
       </div>
-      <p>Tiga posisi utama yang mencerminkan keyakinan jangka panjang kami saat ini, lintas pasar saham dan kripto.</p>
+      <p>Posisi utama yang mencerminkan keyakinan jangka panjang kami saat ini, lintas pasar saham, aset kripto, dan cadangan tunai.</p>
     </div>
 
-    <div class="ticker-grid">
-      <div class="ticker-card">
+    <div class="ticker-grid ticker-grid-6">
+      <div class="ticker-card shimmer-card">
         <div class="ticker-top">
           <span class="ticker-symbol">IDX: PANI</span>
           <span class="ticker-badge">Equity</span>
         </div>
         <div class="ticker-name">Pantai Indah Kapuk Dua</div>
         <div class="ticker-desc">Posisi di sektor properti dan kawasan terintegrasi domestik, dipegang atas dasar valuasi jangka panjang dan prospek pengembangan kawasan.</div>
+        <div class="ticker-trend up">&#9650; +6.5%</div>
         <svg class="ticker-spark" viewBox="0 0 200 44" preserveAspectRatio="none"><path d="M0,34 L20,30 L40,32 L60,22 L80,26 L100,16 L120,20 L140,10 L160,14 L180,6 L200,8"/></svg>
       </div>
-      <div class="ticker-card">
+      <div class="ticker-card shimmer-card">
         <div class="ticker-top">
           <span class="ticker-symbol">BTC</span>
           <span class="ticker-badge">Digital Asset</span>
         </div>
         <div class="ticker-name">Bitcoin</div>
         <div class="ticker-desc">Aset dasar dari seluruh portofolio kripto kami &mdash; dipegang sebagai penyimpan nilai jangka panjang dan tolok ukur terhadap seluruh aset digital lain.</div>
+        <div class="ticker-trend up">&#9650; +7.0%</div>
         <svg class="ticker-spark" viewBox="0 0 200 44" preserveAspectRatio="none"><path d="M0,30 L20,32 L40,20 L60,24 L80,12 L100,18 L120,8 L140,14 L160,4 L180,10 L200,2"/></svg>
       </div>
-      <div class="ticker-card">
+      <div class="ticker-card shimmer-card">
         <div class="ticker-top">
-          <span class="ticker-symbol">HYPE</span>
+          <span class="ticker-symbol">AAVE</span>
           <span class="ticker-badge">Digital Asset</span>
         </div>
-        <div class="ticker-name">Hyperliquid</div>
-        <div class="ticker-desc">Eksposur pada infrastruktur perdagangan terdesentralisasi generasi baru, dipilih atas dasar adopsi on-chain dan model ekonomi token yang berkelanjutan.</div>
+        <div class="ticker-name">Aave</div>
+        <div class="ticker-desc">Eksposur pada protokol lending terdesentralisasi terbesar di ranah DeFi, dipegang atas dasar adopsi on-chain yang matang dan mekanisme suku bunga pasar yang efisien.</div>
+        <div class="ticker-trend up">&#9650; +8.0%</div>
         <svg class="ticker-spark" viewBox="0 0 200 44" preserveAspectRatio="none"><path d="M0,36 L20,28 L40,30 L60,18 L80,22 L100,10 L120,16 L140,6 L160,12 L180,4 L200,6"/></svg>
+      </div>
+      <div class="ticker-card shimmer-card">
+        <div class="ticker-top">
+          <span class="ticker-symbol">TRON</span>
+          <span class="ticker-badge">Digital Asset</span>
+        </div>
+        <div class="ticker-name">Tron</div>
+        <div class="ticker-desc">Eksposur pada infrastruktur blockchain dengan volume transaksi stablecoin yang tinggi, dipegang sebagai diversifikasi jaringan di luar ekosistem Ethereum dan Bitcoin.</div>
+        <div class="ticker-trend up">&#9650; +5.5%</div>
+        <svg class="ticker-spark" viewBox="0 0 200 44" preserveAspectRatio="none"><path d="M0,32 L20,34 L40,26 L60,28 L80,18 L100,22 L120,12 L140,16 L160,8 L180,12 L200,4"/></svg>
+      </div>
+      <div class="ticker-card shimmer-card">
+        <div class="ticker-top">
+          <span class="ticker-symbol">SGD</span>
+          <span class="ticker-badge">Cash</span>
+        </div>
+        <div class="ticker-name">Singapore Dollar</div>
+        <div class="ticker-desc">Cadangan tunai lintas mata uang yang menjadi penyeimbang likuiditas portofolio di luar volatilitas pasar saham dan kripto.</div>
+        <div class="ticker-trend flat">&#8213; Stabil</div>
+        <svg class="ticker-spark" viewBox="0 0 200 44" preserveAspectRatio="none"><path d="M0,22 L20,20 L40,24 L60,20 L80,22 L100,18 L120,22 L140,20 L160,24 L180,20 L200,22"/></svg>
+      </div>
+      <div class="ticker-card shimmer-card">
+        <div class="ticker-top">
+          <span class="ticker-symbol">USDT</span>
+          <span class="ticker-badge">Cash</span>
+        </div>
+        <div class="ticker-name">Tether</div>
+        <div class="ticker-desc">Stablecoin yang dipegang sebagai instrumen likuiditas di ranah kripto &mdash; dry powder untuk masuk posisi baru saat momentum pasar mendukung.</div>
+        <div class="ticker-trend flat">&#8213; Stabil</div>
+        <svg class="ticker-spark" viewBox="0 0 200 44" preserveAspectRatio="none"><path d="M0,22 L20,24 L40,20 L60,22 L80,20 L100,24 L120,20 L140,22 L160,20 L180,24 L200,22"/></svg>
       </div>
     </div>
   </div>
@@ -707,7 +874,7 @@
     </div>
 
     <div class="ladder-wrap reveal">
-      <div class="growth-chart">
+      <div class="growth-chart shimmer-card">
         <svg id="growthSvg" viewBox="0 0 940 380" preserveAspectRatio="none">
           <defs>
             <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
@@ -751,23 +918,43 @@
   <div class="wrap">
     <h2>Believe in progress. Nothing in this world is instant.</h2>
     <p>Capital Wawan tidak membuka penggalangan dana dari pihak luar. Untuk kolaborasi bisnis atau pertanyaan seputar ventures, silakan hubungi kami.</p>
-    <a href="#" class="cta-btn">Follow IG &rarr;</a>
+    <a href="https://www.instagram.com/wawanjanuarr/" target="_blank" rel="noopener" class="cta-btn">Follow IG &rarr;</a>
   </div>
 </section>
 
-<footer class="wrap">
-  <div class="foot-logo">
-    <img src="/assets/logo-cw.png" alt="Capital Wawan">
+<footer class="wrap footer-new">
+  <div class="foot-brand">
+    <div class="foot-logo">
+      <img src="/assets/logo-cw.png" alt="Capital Wawan">
+    </div>
     <span class="foot-copy">&copy; 2026 Capital Wawan</span>
   </div>
-  <div class="foot-links">
+  <div class="foot-col">
+    <div class="foot-col-title">Navigasi</div>
     <a href="#thesis">Thesis</a>
     <a href="#portfolio">Portfolio</a>
     <a href="#founder">Founder</a>
+    <a href="#growth">Growth</a>
+  </div>
+  <div class="foot-col">
+    <div class="foot-col-title">Kontak</div>
+    <a href="https://www.instagram.com/wawanjanuarr/" target="_blank" rel="noopener">Instagram</a>
   </div>
 </footer>
 
 <script>
+  // navbar shrink on scroll
+  (function(){
+    const nav = document.querySelector('nav');
+    if(!nav) return;
+    const onScroll = ()=>{
+      if(window.scrollY > 60){ nav.classList.add('scrolled'); }
+      else{ nav.classList.remove('scrolled'); }
+    };
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  })();
+
   // hero animated blockchain node network
   (function(){
     const canvas = document.getElementById('heroNetwork');
@@ -841,6 +1028,104 @@
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
   },{threshold:0.15});
   reveals.forEach(el=>io.observe(el));
+
+  // thesis mockup animations (slider, data counter, checklist) on view
+  document.querySelectorAll('.thesis-item').forEach(item=>{
+    const itemIO = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(!e.isIntersecting) return;
+        const mockup = e.target.querySelector('.thesis-mockup');
+
+        // slider mockup
+        const fill = mockup.querySelector('#sliderFill');
+        if(fill){
+          const dot = mockup.querySelector('#sliderDot');
+          const ring = mockup.querySelector('#sliderRing');
+          setTimeout(()=>{
+            fill.setAttribute('width','78');
+            dot.setAttribute('cx','92');
+            ring.setAttribute('cx','92');
+          }, 150);
+        }
+
+        // data counter mockup
+        const dataPct = mockup.querySelector('#dataPct');
+        if(dataPct){
+          const emosiPct = mockup.querySelector('#emosiPct');
+          const animateCount = (el, target)=>{
+            let cur = 0;
+            const step = ()=>{
+              cur += Math.max(1, Math.round(target/18));
+              if(cur >= target){ el.textContent = target + '%'; return; }
+              el.textContent = cur + '%';
+              requestAnimationFrame(step);
+            };
+            step();
+          };
+          setTimeout(()=>{ animateCount(dataPct, 92); animateCount(emosiPct, 8); }, 150);
+        }
+
+        // checklist mockup
+        const marks = mockup.querySelectorAll('.check-mark');
+        if(marks.length){
+          marks.forEach(mark=>{
+            const order = parseInt(mark.getAttribute('data-order'), 10);
+            const ring = mockup.querySelector('.check-ring[data-order="'+order+'"]');
+            setTimeout(()=>{
+              mark.classList.add('ticked');
+              if(ring) ring.classList.add('ticked');
+            }, 200 + order*350);
+          });
+        }
+
+        // consistency streak grid (github-style contribution grid)
+        const streakGrid = mockup.querySelector('#streakGrid');
+        if(streakGrid && !streakGrid.dataset.built){
+          streakGrid.dataset.built = '1';
+          const cols = 18, rows = 4, size = 6, gap = 2.2;
+          const startX = 14, startY = 36;
+          const levels = ['#1B1B1E','#3a0d13','#7A0E1C','#E8112D'];
+          const cells = [];
+          for(let c=0;c<cols;c++){
+            for(let r=0;r<rows;r++){
+              const level = Math.random() < 0.25 ? 0 : Math.floor(Math.random()*3)+1;
+              const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+              rect.setAttribute('x', startX + c*(size+gap));
+              rect.setAttribute('y', startY + r*(size+gap));
+              rect.setAttribute('width', size);
+              rect.setAttribute('height', size);
+              rect.setAttribute('rx', 1.5);
+              rect.setAttribute('fill', '#1B1B1E');
+              rect.classList.add('streak-cell');
+              streakGrid.appendChild(rect);
+              cells.push({rect, level});
+            }
+          }
+          cells.forEach((cell, i)=>{
+            setTimeout(()=>{
+              cell.rect.setAttribute('fill', levels[cell.level]);
+            }, 100 + i*18);
+          });
+        }
+
+        itemIO.unobserve(e.target);
+      });
+    },{threshold:0.4});
+    itemIO.observe(item);
+  });
+
+  // portfolio card animations (sparkline draw + trend fade) on view
+  document.querySelectorAll('.ticker-card').forEach(card=>{
+    const cardIO = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('in');
+          cardIO.unobserve(e.target);
+        }
+      });
+    },{threshold:0.3});
+    cardIO.observe(card);
+  });
 
   // ticker card hover spotlight follows cursor
   document.querySelectorAll('.ticker-card').forEach(card=>{

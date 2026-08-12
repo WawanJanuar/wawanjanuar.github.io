@@ -1,49 +1,27 @@
 ---
 const year = new Date().getFullYear();
+
+const navLinks = [
+  { label: "Thesis", href: "#thesis" },
+  { label: "Portfolio", href: "#portfolio" },
+  { label: "Founder", href: "#founder" },
+  { label: "Growth", href: "#growth" },
+];
 ---
 
-<footer class="wrap reveal">
-  <div class="foot-logo">
-    <img src="/assets/logo-cw.png" alt="Capital Wawan" />
+<footer class="wrap footer-new">
+  <div class="foot-brand">
+    <div class="foot-logo">
+      <img src="/assets/logo-cw.png" alt="Capital Wawan" />
+    </div>
     <span class="foot-copy">&copy; {year} Capital Wawan</span>
   </div>
-  <div class="foot-links">
-    <a href="#thesis">Thesis</a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#founder">Founder</a>
+  <div class="foot-col">
+    <div class="foot-col-title">Navigasi</div>
+    {navLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+  </div>
+  <div class="foot-col">
+    <div class="foot-col-title">Kontak</div>
+    <a href="https://www.instagram.com/wawanjanuarr/" target="_blank" rel="noopener">Instagram</a>
   </div>
 </footer>
-
-<style>
-  footer {
-    padding: 40px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  footer .foot-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  footer .foot-logo img {
-    height: 20px;
-  }
-
-  footer .foot-copy {
-    font-size: 12px;
-    color: var(--muted);
-    font-family: var(--font-mono);
-  }
-
-  footer .foot-links {
-    display: flex;
-    gap: 24px;
-    font-size: 12px;
-    color: var(--muted);
-  }
-</style>
