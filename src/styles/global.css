@@ -353,6 +353,7 @@ nav.scrolled .nav-logo span {
 .hero .wrap {
   position: relative;
   z-index: 2;
+  text-align: center;
 }
 
 .hero-eyebrow {
@@ -363,6 +364,7 @@ nav.scrolled .nav-logo span {
   color: var(--red);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   margin-bottom: 28px;
 }
@@ -377,8 +379,9 @@ nav.scrolled .nav-logo span {
 }
 
 .hero h1 {
-  font-size: clamp(38px, 6.4vw, 84px);
+  font-size: clamp(32px, 5vw, 60px);
   max-width: 980px;
+  margin: 0 auto;
   color: var(--text);
 }
 
@@ -388,7 +391,7 @@ nav.scrolled .nav-logo span {
 }
 
 .hero-sub {
-  margin-top: 28px;
+  margin: 28px auto 0;
   max-width: 620px;
   font-size: 17px;
   line-height: 1.7;
@@ -396,8 +399,9 @@ nav.scrolled .nav-logo span {
 }
 
 .hero-meta {
-  margin-top: 56px;
+  margin: 56px auto 0;
   display: flex;
+  justify-content: center;
   gap: 48px;
   flex-wrap: wrap;
   padding-top: 32px;
@@ -408,6 +412,7 @@ nav.scrolled .nav-logo span {
 .hero-meta div {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 6px;
 }
 
@@ -800,32 +805,6 @@ nav.scrolled .nav-logo span {
   stroke-dashoffset: 0;
 }
 
-.ticker-trend {
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.5s ease 0.3s, transform 0.5s ease 0.3s;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.ticker-card.in .ticker-trend {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.ticker-trend.up {
-  color: var(--green);
-}
-
-.ticker-trend.flat {
-  color: var(--muted);
-}
-
 .ticker-grid-6 {
   grid-template-columns: repeat(3, 1fr);
 }
@@ -1012,6 +991,13 @@ nav.scrolled .nav-logo span {
   stroke-width: 1;
 }
 
+.grid-label {
+  fill: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-anchor: start;
+}
+
 .growth-area {
   fill: url(#areaGradient);
   opacity: 0;
@@ -1037,20 +1023,46 @@ nav.scrolled .nav-logo span {
   stroke-dashoffset: 0;
 }
 
-.growth-points circle {
-  fill: var(--bg);
+.growth-points circle.point-final {
+  fill: var(--red);
   stroke: var(--red);
   stroke-width: 2;
   opacity: 0;
   transition: opacity 0.5s ease;
 }
 
-.growth-points circle.in {
+.growth-points circle.point-final.in {
   opacity: 1;
 }
 
-.growth-points circle.point-final {
-  fill: var(--red);
+.growth-points circle.point-pulse {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.growth-points circle.point-pulse.in {
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .growth-points circle.point-pulse.in {
+    animation: growth-pulse 2s ease-out infinite;
+  }
+}
+
+@keyframes growth-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
 }
 
 .growth-labels {

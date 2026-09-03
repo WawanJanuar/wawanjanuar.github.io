@@ -15,10 +15,6 @@ const { holding } = Astro.props;
   </div>
   <div class="ticker-name">{holding.name}</div>
   <div class="ticker-desc">{holding.desc}</div>
-  <div class={`ticker-trend ${holding.trend}`}>
-    {holding.trend === "up" ? <Fragment set:html="&#9650;" /> : <Fragment set:html="&#8213;" />}
-    {" "}{holding.trendLabel}
-  </div>
   <svg class="ticker-spark" viewBox="0 0 200 44" preserveAspectRatio="none">
     <path d={holding.sparkline}></path>
   </svg>

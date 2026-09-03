@@ -1,7 +1,7 @@
 // Portfolio card reveal — separate from the generic .reveal mechanic in reveal.ts.
 // Toggles `.in` on each `.ticker-card` once it enters the viewport, which is what
-// drives the sparkline self-draw (stroke-dashoffset) and trend fade-in via CSS
-// transitions in global.css. Matches capital-wawan.html's technique exactly.
+// drives the sparkline self-draw (stroke-dashoffset) via CSS transitions in global.css.
+// Matches capital-wawan.html's technique exactly.
 
 let initialized = false;
 
