@@ -36,4 +36,32 @@ export const holdings: Holding[] = [
     desc: "Stablecoin yang dipegang sebagai instrumen likuiditas di ranah kripto — dry powder untuk masuk posisi baru saat momentum pasar mendukung.",
     sparkline: "M0,22 L20,24 L40,20 L60,22 L80,20 L100,24 L120,20 L140,22 L160,20 L180,24 L200,22",
   },
+  {
+    symbol: "ETH",
+    category: "Digital Asset",
+    name: "Ethereum",
+    desc: "Aset digital dengan ekosistem smart contract terbesar, dipegang sebagai eksposur inti terhadap infrastruktur DeFi dan Layer 1 di luar Bitcoin.",
+    sparkline: "M0,28 L20,30 L40,22 L60,26 L80,16 L100,20 L120,10 L140,16 L160,6 L180,12 L200,4",
+  },
+  {
+    symbol: "HYPE",
+    category: "Digital Asset",
+    name: "Hyperliquid",
+    desc: "Eksposur pada exchange perpetual on-chain dengan volume terbesar di sektornya, dipegang sebagai taruhan pada pertumbuhan derivatif terdesentralisasi.",
+    sparkline: "M0,34 L20,26 L40,30 L60,18 L80,24 L100,10 L120,20 L140,8 L160,16 L180,6 L200,2",
+  },
+  {
+    symbol: "ASTER",
+    category: "Digital Asset",
+    name: "Aster",
+    desc: "Posisi pada platform trading terdesentralisasi yang sedang tumbuh cepat, dipegang sebagai diversifikasi pada narasi DeFi generasi baru.",
+    sparkline: "M0,32 L20,30 L40,28 L60,24 L80,22 L100,18 L120,16 L140,12 L160,10 L180,6 L200,4",
+  },
+  {
+    symbol: "PENGU",
+    category: "Digital Asset",
+    name: "Pudgy Penguins",
+    desc: "Eksposur pada aset budaya/komunitas dengan basis penggemar yang kuat, dipegang sebagai diversifikasi kecil di luar aset fundamental utama.",
+    sparkline: "M0,24 L20,18 L40,26 L60,14 L80,22 L100,12 L120,20 L140,10 L160,18 L180,8 L200,6",
+  },
 ];
