@@ -58,10 +58,17 @@ export const holdings: Holding[] = [
     sparkline: "M0,32 L20,30 L40,28 L60,24 L80,22 L100,18 L120,16 L140,12 L160,10 L180,6 L200,4",
   },
   {
-    symbol: "PENGU",
+    symbol: "VIRTUAL",
     category: "Digital Asset",
-    name: "Pudgy Penguins",
-    desc: "Eksposur pada aset budaya/komunitas dengan basis penggemar yang kuat, dipegang sebagai diversifikasi kecil di luar aset fundamental utama.",
-    sparkline: "M0,24 L20,18 L40,26 L60,14 L80,22 L100,12 L120,20 L140,10 L160,18 L180,8 L200,6",
+    name: "Virtuals Protocol",
+    desc: "Eksposur pada platform peluncuran AI agent on-chain, dipegang sebagai taruhan pada narasi perpaduan AI dan kripto generasi berikutnya.",
+    sparkline: "M0,30 L20,26 L40,28 L60,20 L80,24 L100,14 L120,18 L140,8 L160,14 L180,4 L200,2",
+  },
+  {
+    symbol: "WLD",
+    category: "Digital Asset",
+    name: "Worldcoin",
+    desc: "Posisi pada jaringan identitas digital berbasis verifikasi biometrik, dipegang sebagai eksposur pada infrastruktur identitas manusia di era AI.",
+    sparkline: "M0,32 L20,28 L40,30 L60,22 L80,26 L100,16 L120,20 L140,10 L160,16 L180,6 L200,4",
   },
 ];
