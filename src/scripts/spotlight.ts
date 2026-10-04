@@ -9,7 +9,7 @@ export function initSpotlight() {
   const hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   if (!hasFinePointer) return;
 
-  const cards = document.querySelectorAll<HTMLElement>(".ticker-card");
+  const cards = document.querySelectorAll<HTMLElement>(".category-card");
 
   cards.forEach((card) => {
     card.addEventListener("mousemove", (e) => {

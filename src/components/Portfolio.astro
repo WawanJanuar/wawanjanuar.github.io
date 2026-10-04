@@ -1,6 +1,10 @@
 ---
 import { holdings } from "../data/portfolio";
-import PortfolioCard from "./PortfolioCard.astro";
+import CategoryCard from "./CategoryCard.astro";
+import AssetModal from "./AssetModal.astro";
+
+const digitalAssets = holdings.filter((h) => h.category === "Digital Asset");
+const cash = holdings.filter((h) => h.category === "Cash");
 ---
 
 <section class="section" id="portfolio">
@@ -12,19 +16,22 @@ import PortfolioCard from "./PortfolioCard.astro";
       </div>
       <p>
         Posisi utama yang mencerminkan keyakinan jangka panjang kami saat ini, lintas pasar
-        saham, aset kripto, dan cadangan tunai.
+        saham, aset kripto, dan cadangan tunai. Klik tiap aset untuk detailnya.
       </p>
     </div>
 
-    <div class="ticker-grid ticker-grid-6">
-      {holdings.map((holding) => <PortfolioCard holding={holding} />)}
+    <div class="category-grid">
+      <CategoryCard title="Aset Digital" holdings={digitalAssets} />
+      <CategoryCard title="Cadangan Tunai" holdings={cash} />
     </div>
   </div>
 </section>
 
+<AssetModal />
+
 <script>
   import { initSpotlight } from "../scripts/spotlight";
-  import { initPortfolioReveal } from "../scripts/portfolioReveal";
+  import { initPortfolioModal } from "../scripts/portfolioModal";
   initSpotlight();
-  initPortfolioReveal();
+  initPortfolioModal();
 </script>

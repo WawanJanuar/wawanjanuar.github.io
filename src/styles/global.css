@@ -693,25 +693,26 @@ nav.scrolled .nav-logo span {
 /* ---------------------------------------------------------------------- */
 /* PORTFOLIO                                                               */
 /* ---------------------------------------------------------------------- */
-.ticker-grid {
+/* Two big category cards (Digital Assets / Cash) instead of one card per
+   asset — a per-asset-card grid got unwieldy once the holding count grew.
+   Each asset is a compact chip (icon + name + symbol) that opens a detail
+   modal on click (see .asset-modal-* below and portfolioModal.ts). */
+.category-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  background: transparent;
-  border: none;
-  padding: 4px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
-@media (max-width: 780px) {
-  .ticker-grid {
+@media (max-width: 860px) {
+  .category-grid {
     grid-template-columns: 1fr;
   }
 }
 
-.ticker-card {
+.category-card {
   position: relative;
-  padding: 36px 32px;
-  border-radius: 18px;
+  padding: 36px;
+  border-radius: 20px;
   overflow: hidden;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0) 40%), rgba(20, 20, 22, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -721,7 +722,7 @@ nav.scrolled .nav-logo span {
   transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
-.ticker-card::before {
+.category-card::before {
   content: "";
   position: absolute;
   top: var(--mx, 50%);
@@ -735,89 +736,228 @@ nav.scrolled .nav-logo span {
   pointer-events: none;
 }
 
-.ticker-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(232, 17, 45, 0.35);
-  box-shadow: 0 28px 60px -16px rgba(0, 0, 0, 0.8), 0 0 40px rgba(232, 17, 45, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-}
-
-.ticker-card:hover::before {
+.category-card:hover::before {
   opacity: 1;
 }
 
-.ticker-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 28px;
-}
-
-.ticker-symbol {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-}
-
-.ticker-badge {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  padding: 4px 9px;
-  border-radius: 3px;
-  background: rgba(232, 17, 45, 0.12);
-  color: var(--red);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.ticker-name {
-  font-size: 22px;
+.category-title {
+  position: relative;
+  font-size: clamp(26px, 3.2vw, 36px);
   font-family: var(--font-display);
   font-weight: 800;
   font-stretch: 108%;
-  margin-bottom: 10px;
-}
-
-.ticker-desc {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.6;
   margin-bottom: 28px;
-  min-height: 64px;
+  max-width: 14ch;
 }
 
-.ticker-spark {
-  height: 44px;
+.asset-list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+}
+
+.asset-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.asset-chip:hover,
+.asset-chip:focus-visible {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(232, 17, 45, 0.3);
+  transform: translateY(-2px);
+}
+
+.asset-chip:focus-visible {
+  outline: none;
+}
+
+.asset-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+.asset-text {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.asset-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.asset-symbol {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+/* Asset detail modal — opens on chip click. "Minimalist luxe" styling: dark
+   glass panel, generous whitespace, a thin gold hairline as the one luxury
+   accent against the red/black palette. */
+.asset-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(5, 5, 6, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.asset-modal-backdrop[hidden] {
+  display: none;
+}
+
+.asset-modal-backdrop.is-open {
+  opacity: 1;
+}
+
+.asset-modal {
+  position: relative;
   width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: 40px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 30%), rgba(16, 16, 18, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 40px 100px -24px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: scale(0.94) translateY(12px);
+  transition: transform 0.35s cubic-bezier(0.16, 0.84, 0.44, 1);
 }
 
-.ticker-spark path {
+.asset-modal-backdrop.is-open .asset-modal {
+  transform: scale(1) translateY(0);
+}
+
+.asset-modal-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.asset-modal-close:hover {
+  background: rgba(232, 17, 45, 0.15);
+  color: var(--text);
+}
+
+.asset-modal-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(201, 161, 90, 0.25);
+}
+
+.asset-modal-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  flex-shrink: 0;
+}
+
+.asset-modal-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.asset-modal-category {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.asset-modal-name {
+  font-size: 24px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 108%;
+}
+
+.asset-modal-symbol {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.asset-modal-desc {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--copy);
+  margin-bottom: 28px;
+}
+
+.asset-modal-spark {
+  height: 40px;
+  width: 100%;
+  opacity: 0.8;
+}
+
+.asset-modal-spark path {
   fill: none;
   stroke: var(--red);
   stroke-width: 1.6;
   stroke-dasharray: 400;
   stroke-dashoffset: 400;
-  transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 0.84, 0.44, 1);
+  transition: stroke-dashoffset 1.1s cubic-bezier(0.16, 0.84, 0.44, 1);
 }
 
-.ticker-card.in .ticker-spark path {
+.asset-modal-spark.in path {
   stroke-dashoffset: 0;
 }
 
-.ticker-grid-6 {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-@media (max-width: 960px) {
-  .ticker-grid-6 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .ticker-grid-6 {
-    grid-template-columns: 1fr;
+@media (prefers-reduced-motion: reduce) {
+  .asset-modal-backdrop,
+  .asset-modal,
+  .asset-modal-spark path {
+    transition: none;
   }
 }
 
